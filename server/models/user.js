@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -23,5 +24,12 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+userSchema.pre("save", function (next) {
+  if (!this.isModified("password")) return next();
+  const password = bcrypt.hashSync(this.password, 8);
+  this.password = password;
+  next();
+});
 
-export default User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;
