@@ -5,9 +5,11 @@ import Projects from "./pages/Projects";
 import SginIn from "./pages/SginIn";
 import SginUp from "./pages/SginUp";
 import Dashboard from "./pages/Dashboard";
+import Nav from "./components/Nav";
 function App() {
   return (
     <BrowserRouter>
+      <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
