@@ -7,9 +7,8 @@ import { ApiError } from "./utils/index.js";
 dotenv.config();
 
 const app = express();
-dbConnction();
-
 app.use(express.json());
+dbConnction();
 
 app.use("/api", routes);
 

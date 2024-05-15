@@ -4,8 +4,6 @@ import User from "../../models/user.js";
 
 export const signupValidator = [
   check("username")
-    .notEmpty()
-    .withMessage("username required")
     .isLength({ max: 42, min: 6 })
     .withMessage("username must be 6 to 42 lenght"),
   check("email")
@@ -19,9 +17,6 @@ export const signupValidator = [
       })
     ),
   check("password")
-    .notEmpty()
-    .withMessage("password required")
-    .withMessage("username required")
     .isLength({ min: 8, max: 32 })
     .withMessage("password must be 8 to 32 lenght"),
   validatorMiddleware,
