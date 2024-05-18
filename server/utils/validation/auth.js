@@ -2,7 +2,7 @@ import { check } from "express-validator";
 import { validatorMiddleware } from "../../middleware/validator.js";
 import User from "../../models/user.js";
 
-export const signupValidator = [
+export const signUpValidator = [
   check("username")
     .isLength({ max: 42, min: 6 })
     .withMessage("username must be 6 to 42 lenght"),
@@ -17,6 +17,20 @@ export const signupValidator = [
       })
     ),
   check("password")
+    .isLength({ min: 8, max: 32 })
+    .withMessage("password must be 8 to 32 lenght"),
+  validatorMiddleware,
+];
+
+export const signInValidator = [
+  check("email")
+    .notEmpty()
+    .withMessage("email reqired")
+    .isEmail()
+    .withMessage("invaild email address"),
+  check("password")
+    .notEmpty()
+    .withMessage("password reqired")
     .isLength({ min: 8, max: 32 })
     .withMessage("password must be 8 to 32 lenght"),
   validatorMiddleware,

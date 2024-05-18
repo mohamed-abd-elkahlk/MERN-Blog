@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { signUp } from "../services/auth.service.js";
-import { signupValidator } from "../utils/validation/auth.js";
+import { signUp, signIn } from "../services/auth.service.js";
+import { signUpValidator, signInValidator } from "../utils/validation/auth.js";
 const router = Router();
-router.post("/sign-up", signupValidator, signUp);
+router.post("/sign-up", signUpValidator, signUp);
+router.post("/sign-in", signInValidator, signIn);
 
 export default router;
