@@ -1,11 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Projects from "./pages/Projects";
-import SginIn from "./pages/SginIn";
-import SginUp from "./pages/SginUp";
-import Dashboard from "./pages/Dashboard";
+
 import Nav from "./components/Nav";
+import FooterComponent from "./components/Footer";
+import { About, Dashboard, Home, Projects, SginIn, SginUp } from "./pages";
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +23,7 @@ function App() {
           }
         />
       </Routes>
+      <FooterComponent />
     </BrowserRouter>
   );
 }
