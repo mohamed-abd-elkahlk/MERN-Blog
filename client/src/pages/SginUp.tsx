@@ -54,7 +54,7 @@ const SginUp = () => {
             Blog
           </Link>
           <p className="text-lg mt-5">
-            This a demo project you can sign in with your email and password or
+            This a demo project you can sign up with your email and password or
             with Google,
           </p>
         </div>
