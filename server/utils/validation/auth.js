@@ -39,7 +39,7 @@ export const signInWithGoogleValidator = [
   check("email").custom((email) =>
     User.findOne({ email }).then((user) => {
       if (user) {
-        return Promise.reject(new Error("E-mail already exitsts"));
+        return Promise.reject(new Error("email already exitsts"));
       }
     })
   ),
