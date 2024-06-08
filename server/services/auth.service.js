@@ -20,3 +20,23 @@ export const signIn = asyncHandler(async (req, res, next) => {
     .cookie("jwt", token, { httpOnly: true })
     .json({ ok: true, message: "sign in successfully" });
 });
+
+export const signInWithGoogle = asyncHandler(async (req, res, next) => {
+  const { name, email, imageUrl } = req.body;
+
+  const user = await User.create({
+    username: name,
+    email,
+    imageUrl,
+    authType: "google",
+  });
+  if (!user)
+    return next(new ApiError("faild to create record with google data", 500));
+
+  console.log(user);
+  const token = issueJWT(user);
+  res
+    .status(200)
+    .cookie("jwt", token, { sameSite: "strict" })
+    .json({ data: user, ok: true });
+});

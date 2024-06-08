@@ -35,3 +35,10 @@ export const signInValidator = [
     .withMessage("password must be 8 to 32 lenght"),
   validatorMiddleware,
 ];
+export const signInWithGoogleValidator = [
+  check("email").custom((value, { req }) =>
+    User.findOne({ email: req.body.email }).then((user) => {
+      if (user) return Promise.reject("email already exits");
+    })
+  ),
+];

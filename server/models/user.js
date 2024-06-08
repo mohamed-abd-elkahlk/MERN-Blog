@@ -14,7 +14,12 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+    },
+    imageUrl: { type: String },
+    authType: {
+      type: String,
+      enum: ["normal", "google"],
+      default: "normal",
     },
   },
   {
