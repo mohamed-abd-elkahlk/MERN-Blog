@@ -16,7 +16,7 @@ app.all("*", (req, res, next) => {
   next(new ApiError(`can't find this route: ${req.originalUrl}`, 404));
 });
 app.use(globalError);
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
   console.log("server on :http://localhost:3000");
 });
 

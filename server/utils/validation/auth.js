@@ -36,9 +36,12 @@ export const signInValidator = [
   validatorMiddleware,
 ];
 export const signInWithGoogleValidator = [
-  check("email").custom((value, { req }) =>
-    User.findOne({ email: req.body.email }).then((user) => {
-      if (user) return Promise.reject("email already exits");
+  check("email").custom((email) =>
+    User.findOne({ email }).then((user) => {
+      if (user) {
+        return Promise.reject(new Error("E-mail already exitsts"));
+      }
     })
   ),
+  validatorMiddleware,
 ];
