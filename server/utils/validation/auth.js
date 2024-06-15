@@ -12,7 +12,7 @@ export const signUpValidator = [
     .custom((val) =>
       User.findOne({ email: val }).then((user) => {
         if (user) {
-          return Promise.reject(new Error("E-mail already exitsts"));
+          return Promise.reject(new Error("email already exitsts"));
         }
       })
     ),
@@ -33,15 +33,5 @@ export const signInValidator = [
     .withMessage("password reqired")
     .isLength({ min: 8, max: 32 })
     .withMessage("password must be 8 to 32 lenght"),
-  validatorMiddleware,
-];
-export const signInWithGoogleValidator = [
-  check("email").custom((email) =>
-    User.findOne({ email }).then((user) => {
-      if (user) {
-        return Promise.reject(new Error("email already exitsts"));
-      }
-    })
-  ),
   validatorMiddleware,
 ];

@@ -3,33 +3,29 @@ import { AiFillGoogleCircle } from "react-icons/ai";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { app } from "../../firebase.config";
 import { useNavigate } from "react-router-dom";
+import { googleAuth } from "../../redux/slices/user";
+import { AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+
 const OAuth = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const auth = getAuth(app);
   const navigate = useNavigate();
   const GoogleOAuth = async () => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
-    try {
-      const resFromGoogle = await signInWithPopup(auth, provider);
-      const res = await fetch("/api/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: resFromGoogle.user.displayName,
-          email: resFromGoogle.user.email,
-          imageUrl: resFromGoogle.user.photoURL,
-        }),
+    const resFromGoogle = await signInWithPopup(auth, provider);
+    await dispatch(googleAuth(resFromGoogle))
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        if (res.ok) {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      const data = await res.json();
-      if (data.ok === true) {
-        console.log(data);
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-    }
   };
   return (
     <Button

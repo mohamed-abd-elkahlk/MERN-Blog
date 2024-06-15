@@ -1,9 +1,12 @@
-import { Navbar, TextInput, Button } from "flowbite-react";
+import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
 import { navLinks } from "../constants";
+import { useCookies } from "react-cookie";
+
 const Nav = () => {
+  const [cookies, setCookie] = useCookies(["jwt"]);
   const path = useLocation().pathname;
   return (
     <Navbar className="border-b-2">
@@ -31,11 +34,31 @@ const Nav = () => {
         <Button className="w-12 h-10 hidden sm:inline" color={"gray"} pill>
           <FaMoon />
         </Button>
-        <Link to={"/sign-in"}>
-          <Button gradientDuoTone={"purpleToBlue"} pill outline>
-            Sign In
-          </Button>
-        </Link>
+        {cookies.jwt ? (
+          <Dropdown
+            arrowIcon={false}
+            label={
+              <Avatar
+                alt="user"
+                // TODO: add defult and image ref
+                img="/profile-defult.png"
+                rounded
+              />
+            }
+            inline
+          >
+            <Dropdown.Header>
+              <span>@</span>
+            </Dropdown.Header>
+          </Dropdown>
+        ) : (
+          <Link to={"/sign-in"}>
+            <Button gradientDuoTone={"purpleToBlue"} pill outline>
+              Sign In
+            </Button>
+          </Link>
+        )}
+
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>

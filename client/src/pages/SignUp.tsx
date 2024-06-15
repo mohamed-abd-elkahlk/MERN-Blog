@@ -2,9 +2,14 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ValidationError } from "../types";
+import { signUp } from "../redux/slices/user";
+import { AppDispatch } from "../store";
+import { useDispatch } from "react-redux";
+
 import OAuth from "../components/shared/OAuth";
 
 const SginUp = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [formData, setformData] = useState({
     username: "",
     email: "",
@@ -20,28 +25,18 @@ const SginUp = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const req = await fetch("/api/auth/sign-up", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    dispatch(signUp(formData))
+      .unwrap()
+      .then((res) => {
+        if (res.ok) navigate("/");
+        if (res.errors) throw res.errors;
+      })
+      .catch((error) => {
+        setErrors(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      const res = await req.json();
-
-      if (res.errors) {
-        throw res.errors;
-      }
-      navigate("/dashboard");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setErrors(error);
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
   };
   return (
     <div className="min-h-screen mt-20">

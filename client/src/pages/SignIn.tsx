@@ -1,9 +1,13 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import OAuth from "../components/shared/OAuth";
+import { signIn } from "../redux/slices/user";
+import { AppDispatch } from "../store";
 
 const SginIn = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [formData, setformData] = useState({
     email: "",
     password: "",
@@ -16,30 +20,23 @@ const SginIn = () => {
     setformData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const req = await fetch("/api/auth/sign-in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    dispatch(signIn(formData))
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+
+        if (res.ok) navigate("/");
+        if (res.status === "fail") throw res.message;
+      })
+      .catch((error) => {
+        setErrors(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      const res = await req.json();
-
-      if (res.error) {
-        throw res.message;
-      }
-      if (res.ok) navigate("/");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setErrors(error);
-    } finally {
-      setLoading(false);
-    }
   };
   return (
     <div className="min-h-screen mt-20">
