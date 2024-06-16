@@ -18,7 +18,6 @@ const OAuth = () => {
     await dispatch(googleAuth(resFromGoogle))
       .unwrap()
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           navigate("/");
         }

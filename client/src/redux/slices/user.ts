@@ -45,8 +45,6 @@ export const googleAuth = createAsyncThunk(
       }),
     });
     const res = await req.json();
-    console.log(res);
-
     return res;
   }
 );

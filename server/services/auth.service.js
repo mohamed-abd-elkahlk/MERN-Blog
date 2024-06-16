@@ -49,15 +49,22 @@ export const signIn = asyncHandler(async (req, res, next) => {
 
 export const signInWithGoogle = asyncHandler(async (req, res, next) => {
   const { name, email, imageUrl } = req.body;
-  console.log(req);
-
   const user = await User.findOne({ email, authType: "google" });
   if (user) {
     const token = issueJWT(user);
-    res
+    return res
       .status(200)
       .cookie("jwt", token, { sameSite: "strict", httpOnly: true })
-      .json({ data: user, ok: true });
+      .json({
+        data: {
+          username: user.username,
+          email: user.email,
+          id: user._id,
+          authType: user.authType,
+          imageUrl: user.imageUrl,
+        },
+        ok: true,
+      });
   }
 
   const newUser = await User.create({
@@ -73,5 +80,14 @@ export const signInWithGoogle = asyncHandler(async (req, res, next) => {
   res
     .status(200)
     .cookie("jwt", newToken, { sameSite: "strict", httpOnly: true })
-    .json({ data: newUser, ok: true });
+    .json({
+      data: {
+        username: newUser.username,
+        email: newUser.email,
+        id: newUser._id,
+        authType: newUser.authType,
+        imageUrl: newUser.imageUrl,
+      },
+      ok: true,
+    });
 });
