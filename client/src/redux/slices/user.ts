@@ -45,10 +45,23 @@ export const googleAuth = createAsyncThunk(
       }),
     });
     const res = await req.json();
+
     return res;
   }
 );
-const initialState = {
+// Define a type for the slice state
+export interface UserState {
+  currentUser: {
+    id: string;
+    username: string;
+    imageUrl: string;
+    email: string;
+  } | null;
+  loading: boolean;
+  error?: null;
+}
+
+const initialState: UserState = {
   currentUser: null,
   error: null,
   loading: false,

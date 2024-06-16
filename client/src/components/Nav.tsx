@@ -3,10 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
 import { navLinks } from "../constants";
-import { useCookies } from "react-cookie";
-
+import { useAppSelector } from "../hook";
 const Nav = () => {
-  const [cookies, setCookie] = useCookies(["jwt"]);
+  const { currentUser } = useAppSelector((state) => state.user);
   const path = useLocation().pathname;
   return (
     <Navbar className="border-b-2">
@@ -34,22 +33,30 @@ const Nav = () => {
         <Button className="w-12 h-10 hidden sm:inline" color={"gray"} pill>
           <FaMoon />
         </Button>
-        {cookies.jwt ? (
+        {currentUser ? (
           <Dropdown
             arrowIcon={false}
             label={
               <Avatar
                 alt="user"
                 // TODO: add defult and image ref
-                img="/profile-defult.png"
+                img={currentUser.imageUrl}
                 rounded
               />
             }
             inline
           >
             <Dropdown.Header>
-              <span>@</span>
+              <span className="block text-sm">@{currentUser.username}</span>
+              <span className="block text-sm font-medium truncate">
+                {currentUser.email}
+              </span>
             </Dropdown.Header>
+            <Link to={"/dashboard?tab=profile"}>
+              <Dropdown.Item>Profile</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item>Sign out</Dropdown.Item>
+            </Link>
           </Dropdown>
         ) : (
           <Link to={"/sign-in"}>

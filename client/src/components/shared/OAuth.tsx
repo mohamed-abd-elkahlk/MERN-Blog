@@ -4,11 +4,10 @@ import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { app } from "../../firebase.config";
 import { useNavigate } from "react-router-dom";
 import { googleAuth } from "../../redux/slices/user";
-import { AppDispatch } from "../../store";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hook";
 
 const OAuth = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const auth = getAuth(app);
   const navigate = useNavigate();
   const GoogleOAuth = async () => {

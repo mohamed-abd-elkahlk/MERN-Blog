@@ -3,13 +3,12 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ValidationError } from "../types";
 import { signUp } from "../redux/slices/user";
-import { AppDispatch } from "../store";
-import { useDispatch } from "react-redux";
 
 import OAuth from "../components/shared/OAuth";
+import { useAppDispatch } from "../hook";
 
 const SginUp = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [formData, setformData] = useState({
     username: "",
     email: "",

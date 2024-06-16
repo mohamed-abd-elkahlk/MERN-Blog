@@ -1,13 +1,12 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../hook";
 import OAuth from "../components/shared/OAuth";
 import { signIn } from "../redux/slices/user";
-import { AppDispatch } from "../store";
 
 const SginIn = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [formData, setformData] = useState({
     email: "",
     password: "",
