@@ -25,8 +25,6 @@ const SginIn = () => {
     dispatch(signIn(formData))
       .unwrap()
       .then((res) => {
-        console.log(res);
-
         if (res.ok) navigate("/");
         if (res.status === "fail") throw res.message;
       })
