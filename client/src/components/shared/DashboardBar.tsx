@@ -22,7 +22,7 @@ const DashboardBar = ({ tab }: { tab: string }) => {
             labelColor="dark"
             className="cursor-pointer"
           >
-            Profile
+            Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
