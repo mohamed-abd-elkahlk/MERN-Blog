@@ -17,3 +17,7 @@ export const issueJWT = (user) => {
 
   return token;
 };
+export const varifyToken = (jwtToken) => {
+  const decoded = jwt.verify(jwtToken, PUP_KEY);
+  return decoded;
+};

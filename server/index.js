@@ -1,14 +1,20 @@
-import express from "express";
+import dotenvLoad from "./config/envLoader.js";
 import dbConnction from "./config/db.js";
-import dotenv from "dotenv";
+import express from "express";
 import routes from "./routes/index.js";
 import { globalError } from "./middleware/error.js";
 import { ApiError } from "./utils/index.js";
-dotenv.config();
+import passport from "passport";
 
+import cookieParser from "cookie-parser";
+import { strategy } from "./config/passport.js";
 const app = express();
-app.use(express.json());
 dbConnction();
+app.use(express.json());
+app.use(cookieParser());
+passport.use(strategy);
+
+app.use(passport.initialize());
 
 app.use("/api", routes);
 
