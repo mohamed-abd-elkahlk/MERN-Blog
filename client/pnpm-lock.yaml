@@ -23,6 +23,9 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.3.1
+      react-circular-progressbar:
+        specifier: ^2.1.0
+        version: 2.1.0(react@18.3.1)
       react-cookie:
         specifier: ^7.1.4
         version: 7.1.4(react@18.3.1)
@@ -1543,6 +1546,11 @@ packages:
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  react-circular-progressbar@2.1.0:
+    resolution: {integrity: sha512-xp4THTrod4aLpGy68FX/k1Q3nzrfHUjUe5v6FsdwXBl3YVMwgeXYQKDrku7n/D6qsJA9CuunarAboC2xCiKs1g==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
 
   react-cookie@7.1.4:
     resolution: {integrity: sha512-wDxxa/HYaSXSMlyWJvJ5uZTzIVtQTPf1gMksFgwAz/2/W3lCtY8r4OChCXMPE7wax0PAdMY97UkNJedGv7KnDw==}
@@ -3475,6 +3483,10 @@ snapshots:
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  react-circular-progressbar@2.1.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   react-cookie@7.1.4(react@18.3.1):
     dependencies:
