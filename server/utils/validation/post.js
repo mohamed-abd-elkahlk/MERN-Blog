@@ -7,10 +7,10 @@ export const createPostValidation = [
   check("content").notEmpty().withMessage("content is empty"),
   check("title")
     .notEmpty()
-    .withMessage("content is empty")
+    .withMessage("title is empty")
     .custom((value, { req }) => {
       req.body.slug = slugify(value);
-      req.body.author = req.user._id.toString();
+      req.body.author = req.user._id;
       return true;
     }),
   validatorMiddleware,

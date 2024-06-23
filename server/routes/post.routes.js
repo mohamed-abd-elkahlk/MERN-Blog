@@ -15,6 +15,6 @@ router.use(
   allowedTo("admin")
 );
 
-router.post("/crate", createPostValidation, createPost);
+router.post("/create", createPostValidation, createPost);
 
 export default router;
