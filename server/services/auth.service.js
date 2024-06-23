@@ -19,6 +19,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
         id: user._id,
         authType: user.authType,
         imageUrl: user.imageUrl,
+        role: user.role,
       },
     });
 });
@@ -43,6 +44,7 @@ export const signIn = asyncHandler(async (req, res, next) => {
         id: user._id,
         authType: user.authType,
         imageUrl: user.imageUrl,
+        role: user.role,
       },
     });
 });
@@ -62,6 +64,7 @@ export const signInWithGoogle = asyncHandler(async (req, res, next) => {
           _id: user._id,
           authType: user.authType,
           imageUrl: user.imageUrl,
+          role: user.role,
         },
         ok: true,
       });
@@ -86,6 +89,7 @@ export const signInWithGoogle = asyncHandler(async (req, res, next) => {
         _id: newUser._id,
         authType: newUser.authType,
         imageUrl: newUser.imageUrl,
+        role: user.role,
       },
       ok: true,
     });

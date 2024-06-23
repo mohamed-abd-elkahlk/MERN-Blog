@@ -10,7 +10,7 @@ import {
 } from "firebase/storage";
 import { app } from "../../firebase.config";
 import { deleteUser, signOut, updateUser } from "../../redux/slices/user";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 const DashboardProfile = () => {
   const dispatch = useAppDispatch();
@@ -99,7 +99,9 @@ const DashboardProfile = () => {
         setUserSuccess("user profile updated successfully");
         setUserError(null);
         setFormData({});
+        return;
       }
+      throw new Error("");
     } catch (error) {
       setUserSuccess(null);
       setUserError("somthing went wrong please try again later");
@@ -207,8 +209,21 @@ const DashboardProfile = () => {
           outline
           disabled={loading}
         >
-          Update
+          {loading ? "Loading..." : "Update"}
         </Button>
+        {currentUser?.role === "admin" ? (
+          <Link to={"/create-post"}>
+            <Button
+              type="button"
+              gradientDuoTone={"purpleToPink"}
+              className="w-full"
+            >
+              Create a post
+            </Button>
+          </Link>
+        ) : (
+          ""
+        )}
       </form>
       <div className="flex justify-between mt-5 text-red-500">
         <span className="cursor-pointer" onClick={() => setShowModel(true)}>

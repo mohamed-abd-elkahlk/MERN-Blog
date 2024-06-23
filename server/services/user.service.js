@@ -25,6 +25,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
       _id: user._id,
       authType: user.authType,
       imageUrl: user.imageUrl,
+      role: user.role,
     },
   });
 });

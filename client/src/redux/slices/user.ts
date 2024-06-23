@@ -58,6 +58,7 @@ export interface UserState {
     username: string;
     imageUrl: string;
     email: string;
+    role: "admin" | "user";
   } | null;
   loading: boolean;
   error?: null;
