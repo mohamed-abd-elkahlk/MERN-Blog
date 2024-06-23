@@ -30,6 +30,7 @@ export const signUp = createAsyncThunk(
     return response;
   }
 );
+
 export const googleAuth = createAsyncThunk(
   "auth/google",
   async (data: UserCredential) => {
@@ -49,10 +50,11 @@ export const googleAuth = createAsyncThunk(
     return res;
   }
 );
+
 // Define a type for the slice state
 export interface UserState {
   currentUser: {
-    id: string;
+    _id: string;
     username: string;
     imageUrl: string;
     email: string;
@@ -70,7 +72,17 @@ const initialState: UserState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    updateUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
+    deleteUser: (state) => {
+      state.currentUser = null;
+    },
+    signOut: (state) => {
+      state.currentUser = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signIn.fulfilled, (state, action) => {
@@ -85,6 +97,6 @@ const userSlice = createSlice({
   },
 });
 
-// export const {} = userSlice.actions;
+export const { updateUser, deleteUser, signOut } = userSlice.actions;
 
 export default userSlice.reducer;

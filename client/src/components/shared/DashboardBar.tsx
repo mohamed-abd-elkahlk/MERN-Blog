@@ -1,7 +1,11 @@
 import { Sidebar } from "flowbite-react";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hook";
+import { signOut } from "../../redux/slices/user";
 const DashboardBar = ({ tab }: { tab: string }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   return (
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
@@ -18,6 +22,21 @@ const DashboardBar = ({ tab }: { tab: string }) => {
             </Sidebar.Item>
           </Link>
           <Sidebar.Item
+            onClick={async function handleSignOut() {
+              try {
+                const req = await fetch(`api/user/sign-out`, {
+                  method: "POST",
+                });
+
+                const res = await req.json();
+                if (res.ok) {
+                  dispatch(signOut());
+                  navigate("/");
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            }}
             icon={HiArrowSmRight}
             lable={"User"}
             labelColor="dark"

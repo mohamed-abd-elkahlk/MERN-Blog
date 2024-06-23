@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 export const issueJWT = (user) => {
   const id = user._id;
-  const expiresIn = "5d";
   const { role } = user || "user";
 
   const payload = {
@@ -12,7 +11,7 @@ export const issueJWT = (user) => {
   };
 
   const token = jwt.sign(payload, process.env.JWT_SCREAT, {
-    expiresIn,
+    expiresIn: "7d",
   });
 
   return token;

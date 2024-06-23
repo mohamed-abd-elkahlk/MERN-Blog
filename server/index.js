@@ -12,9 +12,9 @@ const app = express();
 dbConnction();
 app.use(express.json());
 app.use(cookieParser());
-passport.use(strategy);
-
+app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
+passport.use(strategy);
 
 app.use("/api", routes);
 

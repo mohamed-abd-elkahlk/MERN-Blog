@@ -4,11 +4,18 @@ import { ApiError, ApiFeatures } from "../utils/index.js";
 const deleteOne = (Model) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
+    if (req.user) {
+      if (req.user._id.toString() !== id)
+        return next(
+          new ApiError("you are not allowed to preform this action", 403)
+        );
+    }
+
     const document = await Model.findByIdAndDelete(id);
     if (!document) {
       return next(new ApiError(`No document for this id ${id}`, 404));
     }
-    res.status(204).send();
+    res.clearCookie("jwt").status(204);
   });
 
 const updateOne = (Model) =>

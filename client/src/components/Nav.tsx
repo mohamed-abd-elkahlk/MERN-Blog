@@ -1,11 +1,14 @@
 import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { navLinks } from "../constants";
 import { useAppSelector, useAppDispatch } from "../hook";
 import { toggleTheme } from "../redux/slices/theme";
+import { signOut } from "../redux/slices/user";
 const Nav = () => {
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.user);
   const { theme } = useAppSelector((state) => state.theme);
@@ -63,7 +66,25 @@ const Nav = () => {
             <Link to={"/dashboard?tab=profile"}>
               <Dropdown.Item>Profile</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item
+                onClick={async function handleSignOut() {
+                  try {
+                    const req = await fetch(`api/user/sign-out`, {
+                      method: "POST",
+                    });
+
+                    const res = await req.json();
+                    if (res.ok) {
+                      dispatch(signOut());
+                      navigate("/");
+                    }
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }}
+              >
+                Sign out
+              </Dropdown.Item>
             </Link>
           </Dropdown>
         ) : (

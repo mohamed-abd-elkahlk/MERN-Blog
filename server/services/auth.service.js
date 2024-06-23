@@ -59,14 +59,13 @@ export const signInWithGoogle = asyncHandler(async (req, res, next) => {
         data: {
           username: user.username,
           email: user.email,
-          id: user._id,
+          _id: user._id,
           authType: user.authType,
           imageUrl: user.imageUrl,
         },
         ok: true,
       });
   }
-
   const newUser = await User.create({
     username: name,
     email,
@@ -84,7 +83,7 @@ export const signInWithGoogle = asyncHandler(async (req, res, next) => {
       data: {
         username: newUser.username,
         email: newUser.email,
-        id: newUser._id,
+        _id: newUser._id,
         authType: newUser.authType,
         imageUrl: newUser.imageUrl,
       },

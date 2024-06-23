@@ -1,6 +1,13 @@
 import { Router } from "express";
-import { updateUser } from "../services/user.service.js";
-import { updateUserValidator } from "../utils/validation/user.js";
+import {
+  deleteUser,
+  updateUser,
+  userSignOut,
+} from "../services/user.service.js";
+import {
+  mongoIdValidator,
+  updateUserValidator,
+} from "../utils/validation/user.js";
 import passport from "passport";
 
 const router = Router();
@@ -12,6 +19,10 @@ router.use(
   })
 );
 
-router.put("/update:id", updateUserValidator, updateUser);
+router.put("/update/:id", updateUserValidator, updateUser);
+
+router.delete("/delete/:id", mongoIdValidator, deleteUser);
+
+router.post("/sign-out", userSignOut);
 
 export default router;
