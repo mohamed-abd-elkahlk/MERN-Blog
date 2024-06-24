@@ -65,14 +65,14 @@ export class ApiFeatures {
 
   // serching
   serch() {
-    if (this.quryString.q) {
+    if (this.quryString.keyword) {
       const qury = {};
       qury.$or = [
-        { title: { $regex: this.quryString.q, $options: "i" } },
-        { description: { $regex: this.quryString.q, $options: "i" } },
-        { name: { $regex: this.quryString.q, $options: "i" } },
-        { email: { $regex: this.quryString.q, $options: "i" } },
-        { role: { $regex: this.quryString.q, $options: "i" } },
+        { title: { $regex: this.quryString.keyword, $options: "i" } },
+        { content: { $regex: this.quryString.keyword, $options: "i" } },
+        { author: { $regex: this.quryString.keyword, $options: "i" } },
+        { category: { $regex: this.quryString.keyword, $options: "i" } },
+        { _id: { $regex: this.quryString.keyword, $options: "i" } },
       ];
       this.mongooseQuery = this.mongooseQuery.find(qury);
     }

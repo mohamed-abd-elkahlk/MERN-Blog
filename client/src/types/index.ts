@@ -8,3 +8,14 @@ export type IUserCredential = {
   email: string;
   password: string;
 };
+export type IPost = {
+  _id: string;
+  author: string;
+  title: string;
+  content: string;
+  category: string;
+  slug: string;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+};

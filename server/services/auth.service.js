@@ -35,7 +35,7 @@ export const signIn = asyncHandler(async (req, res, next) => {
 
   res
     .status(200)
-    .cookie("jwt", token, { httpOnly: true, sameSite: "strict" })
+    .cookie("jwt", token)
     .json({
       ok: true,
       data: {
@@ -56,7 +56,7 @@ export const signInWithGoogle = asyncHandler(async (req, res, next) => {
     const token = issueJWT(user);
     return res
       .status(200)
-      .cookie("jwt", token, { sameSite: "strict", httpOnly: true })
+      .cookie("jwt", token)
       .json({
         data: {
           username: user.username,
@@ -81,7 +81,7 @@ export const signInWithGoogle = asyncHandler(async (req, res, next) => {
   const newToken = issueJWT(newUser);
   res
     .status(200)
-    .cookie("jwt", newToken, { sameSite: "strict", httpOnly: true })
+    .cookie("jwt", newToken)
     .json({
       data: {
         username: newUser.username,

@@ -1,26 +1,41 @@
 import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiUser } from "react-icons/hi";
+import { HiArrowSmRight, HiDocumentText, HiUser } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../hook";
+import { useAppDispatch, useAppSelector } from "../../hook";
 import { signOut } from "../../redux/slices/user";
 const DashboardBar = ({ tab }: { tab: string }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { currentUser } = useAppSelector((state) => state.user);
   return (
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
-        <Sidebar.ItemGroup>
+        <Sidebar.ItemGroup className="flex flex-col gap-1">
           <Link to={"/dashboard?tab=profile"}>
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
-              label={"User"}
+              label={currentUser?.role === "admin" ? "Admin" : "User"}
               labelColor="dark"
               as="div"
             >
               Profile
             </Sidebar.Item>
           </Link>
+          {currentUser?.role === "admin" ? (
+            <Link to={"/dashboard?tab=post"}>
+              <Sidebar.Item
+                active={tab === "post"}
+                icon={HiDocumentText}
+                as="div"
+              >
+                Posts
+              </Sidebar.Item>
+            </Link>
+          ) : (
+            ""
+          )}
+
           <Sidebar.Item
             onClick={async function handleSignOut() {
               try {
