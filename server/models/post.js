@@ -13,7 +13,11 @@ const PostSchema = new mongoose.Schema(
     slug: {
       type: String,
     },
-    imageUrl: { type: String },
+    imageUrl: {
+      type: String,
+      default:
+        "https://thecsrjournal.in/wp-content/uploads/2018/10/speed-post-640x518.png",
+    },
     category: {
       type: String,
       default: "uncategorized",

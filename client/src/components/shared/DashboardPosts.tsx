@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../hook";
 import { IPost } from "../../types";
-import { Table } from "flowbite-react";
+import { Button, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 export default function DashboardPosts() {
   const { currentUser } = useAppSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState<IPost[]>([]);
+  const [showMore, setShowMore] = useState(true);
+  const [page, setPage] = useState(2);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -20,6 +22,10 @@ export default function DashboardPosts() {
         const res = await req.json();
         if (res.data) {
           setUserPosts(res.data);
+
+          if (res.data.results < 5) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -29,12 +35,35 @@ export default function DashboardPosts() {
       fetchPosts();
     }
   }, [currentUser?._id, currentUser?.role]);
+  async function handleShowMore() {
+    try {
+      const req = await fetch(
+        `/api/post/getpost?author=${currentUser?._id}&page=${page}`,
+        {
+          method: "GET",
+        }
+      );
+      const res = await req.json();
 
+      if (res.data) {
+        setUserPosts((prev) => [...prev, ...res.data]);
+
+        if (res.pagenation.next) {
+          setPage(res.pagenation.next);
+        }
+        if (res.pagenation.currenPage === page) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300  ">
       {currentUser?.role === "admin" && userPosts?.length > 0 ? (
         <>
-          <Table hoverable className="shadow-md">
+          <Table className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date Updated</Table.HeadCell>
               <Table.HeadCell>Post Image</Table.HeadCell>
@@ -89,6 +118,18 @@ export default function DashboardPosts() {
               ))}
             </Table.Body>
           </Table>
+          {showMore ? (
+            <Button
+              onClick={handleShowMore}
+              type="button"
+              outline
+              className="w-full text-teal-500 text-center text-sm "
+            >
+              Show more
+            </Button>
+          ) : (
+            ""
+          )}
         </>
       ) : (
         <p>you don't have post yet</p>

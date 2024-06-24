@@ -25,7 +25,7 @@ export class ApiFeatures {
   // pagination ->
   pagenate(countDocuments) {
     const page = this.quryString.page * 1 || 1;
-    const limit = this.quryString.limit * 1 || 10;
+    const limit = this.quryString.limit * 1 || 7;
     const skip = (page - 1) * limit;
 
     const pages = Math.ceil(countDocuments / limit);

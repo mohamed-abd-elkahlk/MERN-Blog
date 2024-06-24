@@ -22,7 +22,6 @@ export default function CreatePost() {
   const [postError, setPostError] = useState<string | null>(null);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
-  console.log(formData);
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -36,12 +35,10 @@ export default function CreatePost() {
         body: JSON.stringify({ ...formData, author: currentUser?._id }),
       });
       const res = await req.json();
-      console.log(res);
 
       if (res.ok) {
-        navigate(`/post/${res.data._id}`);
+        return navigate(`/post/${res.data.slug}`);
       }
-      throw new Error("");
     } catch (error) {
       setPostError("somthing went wrong when try to puplish the post");
       console.log(error);
@@ -114,7 +111,7 @@ export default function CreatePost() {
           />
           <Select
             onChange={(e) =>
-              setFormData({ ...formData, [e.target.id]: e.target.value })
+              setFormData({ ...formData, category: e.target.value })
             }
           >
             <option value="uncategorized">Select Catgeory</option>

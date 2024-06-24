@@ -11,6 +11,7 @@ import {
 import passport from "passport";
 
 const router = Router();
+router.post("/sign-out", userSignOut);
 
 router.use(
   passport.authenticate("jwt", {
@@ -23,7 +24,5 @@ router.use(
 router.put("/update/:id", updateUserValidator, updateUser);
 
 router.delete("/delete/:id", mongoIdValidator, deleteUser);
-
-router.post("/sign-out", userSignOut);
 
 export default router;
