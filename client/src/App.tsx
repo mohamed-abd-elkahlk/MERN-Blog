@@ -6,6 +6,7 @@ import { About, Dashboard, Home, Projects, SginIn, SginUp } from "./pages";
 import PrivteRoutes from "./context/PrivteRoutes";
 import AdminPrivteRoutes from "./context/AdminPrivteRoutes";
 import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/UpdatePost";
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function App() {
         </Route>
         <Route element={<AdminPrivteRoutes />}>
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/update-post/:id" element={<UpdatePost />} />
         </Route>
         <Route
           path="*"

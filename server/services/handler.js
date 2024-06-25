@@ -1,11 +1,14 @@
 import asyncHandler from "express-async-handler";
 import { ApiError, ApiFeatures } from "../utils/index.js";
+import Post from "../models/post.js";
+import User from "../models/user.js";
 
 const deleteOne = (Model) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    if (req.user) {
-      if (req.user._id.toString() !== id)
+    const { userId } = req.query;
+    if (req.user && userId) {
+      if (req.user._id.toString() !== userId)
         return next(
           new ApiError("you are not allowed to preform this action", 403)
         );
@@ -15,7 +18,11 @@ const deleteOne = (Model) =>
     if (!document) {
       return next(new ApiError(`No document for this id ${id}`, 404));
     }
-    res.clearCookie("jwt").status(204);
+
+    if (Model === User) {
+      res.status(204).clearCookie("jwt").send();
+    }
+    res.status(204).send();
   });
 
 const updateOne = (Model) =>
@@ -26,7 +33,13 @@ const updateOne = (Model) =>
     if (!document) {
       return next(new ApiError(`no document with this id :${id}`, 404));
     }
-
+    if (Model === Post) {
+      if (req.user._id.toString() !== document.author.toString()) {
+        return next(
+          new ApiError(`you don't have premission to upadate this record`, 403)
+        );
+      }
+    }
     res.status(200).json({ data: document });
   });
 

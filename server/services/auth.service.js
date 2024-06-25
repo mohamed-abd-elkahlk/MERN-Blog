@@ -1,7 +1,6 @@
 import User from "../models/user.js";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
-import { createOne } from "./handler.js";
 import { ApiError } from "../utils/index.js";
 import { issueJWT } from "../utils/auth/index.js";
 export const signUp = asyncHandler(async (req, res, next) => {
@@ -35,13 +34,13 @@ export const signIn = asyncHandler(async (req, res, next) => {
 
   res
     .status(200)
-    .cookie("jwt", token)
+    .cookie("jwt", token, { sameSite: "strict" })
     .json({
       ok: true,
       data: {
         username: user.username,
         email: user.email,
-        id: user._id,
+        _id: user._id,
         authType: user.authType,
         imageUrl: user.imageUrl,
         role: user.role,

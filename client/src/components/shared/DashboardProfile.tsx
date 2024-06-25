@@ -175,7 +175,7 @@ const DashboardProfile = () => {
           <img
             src={imageFileUrl || currentUser?.imageUrl}
             alt="User"
-            className="rounded-full w-full border-8 border-[lightgray] object-cover"
+            className="rounded-full w-full border-8 border-[lightgray] object-cover h-full"
           />
         </div>
         {uploadImageError ? (

@@ -59,6 +59,21 @@ export default function DashboardPosts() {
       console.log(error);
     }
   }
+  async function handleDelete(id: string) {
+    try {
+      const req = await fetch(
+        `/api/post/delete-post/${id}?userId=${currentUser?._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (req.ok) {
+        setUserPosts((prev) => prev.filter((post) => post._id !== id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300  ">
       {currentUser?.role === "admin" && userPosts?.length > 0 ? (
@@ -102,7 +117,10 @@ export default function DashboardPosts() {
                   </Table.Cell>
                   <Table.Cell>{post.category}</Table.Cell>
                   <Table.Cell>
-                    <span className="font-medium text-red-500 hover:underline cursor-pointer">
+                    <span
+                      onClick={() => handleDelete(post._id)}
+                      className="font-medium text-red-500 hover:underline cursor-pointer"
+                    >
                       Delete
                     </span>
                   </Table.Cell>

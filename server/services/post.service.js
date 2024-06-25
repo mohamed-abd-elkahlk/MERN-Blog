@@ -1,9 +1,12 @@
 import asyncHandler from "express-async-handler";
 import Post from "../models/post.js";
-import { createOne, getAll } from "./handler.js";
+import { createOne, getAll, deleteOne, getOne, updateOne } from "./handler.js";
 import { ApiError, ApiFeatures } from "../utils/index.js";
 export const createPost = createOne(Post);
 export const getAllPosts = getAll(Post);
+export const deleteOnePost = deleteOne(Post);
+export const getOnePost = getOne(Post);
+export const updatePost = updateOne(Post);
 
 export const getAllPostsForUser = asyncHandler(async (req, res, next) => {
   const docCounts = await Post.countDocuments();

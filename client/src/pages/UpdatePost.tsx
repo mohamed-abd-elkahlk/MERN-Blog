@@ -7,20 +7,45 @@ import {
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import ReactQuill from "react-quill";
 import { app } from "../firebase.config";
-import { useState } from "react";
-import { useAppSelector } from "../hook";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+// import { useAppSelector } from "../hook";
+import { useNavigate, useParams } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
-export default function CreatePost() {
+export default function UpdatePost() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  useEffect(() => {
+    const fetchPostWihtId = async () => {
+      try {
+        const req = await fetch(`/api/post/${id}`);
 
-  const { currentUser } = useAppSelector((state) => state.user);
+        const res = await req.json();
+        if (res.data) {
+          setPostError(null);
+          return setFormData(res.data);
+        }
+        if (!req.ok) {
+          setPostError("invaild post Id");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchPostWihtId();
+  }, [id]);
+
+  //   const { currentUser } = useAppSelector((state) => state.user);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageFileUrl, setImageFileUrl] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<string | null>(null);
   const [uploadImageError, setUploadImageError] = useState<string | null>(null);
   const [postError, setPostError] = useState<string | null>(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    title: "",
+    imageUrl: "",
+    category: "",
+    content: "",
+  });
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -28,16 +53,16 @@ export default function CreatePost() {
     setLoading(true);
     setPostError(null);
     try {
-      const req = await fetch("/api/post/create", {
-        method: "POST",
+      const req = await fetch(`/api/post/update-post/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...formData, author: currentUser?._id }),
+        body: JSON.stringify(formData),
       });
       const res = await req.json();
 
-      if (res.ok) {
+      if (res.data) {
         return navigate(`/post/${res.data._id}`);
       }
     } catch (error) {
@@ -101,6 +126,7 @@ export default function CreatePost() {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
+            value={formData?.title}
             type="text"
             placeholder="Title"
             required
@@ -111,6 +137,7 @@ export default function CreatePost() {
             }
           />
           <Select
+            value={formData?.category}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
@@ -149,10 +176,9 @@ export default function CreatePost() {
         ) : (
           ""
         )}
-        {/* //@ts-expect-error sss */}
-        {imageFileUrl ? (
+        {formData?.imageUrl ? (
           <img
-            src={imageFileUrl}
+            src={imageFileUrl || formData?.imageUrl}
             alt="upload"
             className="w-full h-72 object-cover"
           ></img>
@@ -160,6 +186,7 @@ export default function CreatePost() {
           ""
         )}
         <ReactQuill
+          value={formData?.content}
           theme="snow"
           placeholder="write something"
           className="h-72 mb-12"
@@ -167,7 +194,7 @@ export default function CreatePost() {
           onChange={(value) => setFormData({ ...formData, content: value })}
         />
         <Button type="submit" gradientDuoTone={"purpleToPink"} size={"md"}>
-          Puplish
+          Update
         </Button>
         {postError ? <Alert color={"failure"}>{postError}</Alert> : ""}
       </form>

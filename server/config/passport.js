@@ -18,6 +18,7 @@ export const strategy = new Strategy(
   {
     jwtFromRequest: cookiesExtractor,
     secretOrKey: process.env.JWT_SCREAT,
+    ignoreExpiration: false,
   },
   (payload, done) => {
     User.findById(payload.sub)
