@@ -19,8 +19,8 @@ const deleteOne = (Model) =>
       return next(new ApiError(`No document for this id ${id}`, 404));
     }
 
-    if (Model === User) {
-      res.status(204).clearCookie("jwt").send();
+    if (Model === User && userId === null) {
+      return res.status(204).clearCookie("jwt").send();
     }
     res.status(204).send();
   });

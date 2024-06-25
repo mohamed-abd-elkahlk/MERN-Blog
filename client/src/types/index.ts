@@ -19,3 +19,12 @@ export type IPost = {
   createdAt: string;
   updatedAt: string;
 };
+export type IUser = {
+  _id: string;
+  username: string;
+  email: string;
+  role: "admin" | "user";
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+};
