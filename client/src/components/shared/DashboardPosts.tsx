@@ -99,7 +99,7 @@ export default function DashboardPosts() {
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>
-                    <Link to={`/post/${post.slug}`}>
+                    <Link to={`/post/${post._id}`}>
                       <img
                         src={post.imageUrl}
                         alt={post.title}
@@ -109,7 +109,7 @@ export default function DashboardPosts() {
                   </Table.Cell>
                   <Table.Cell>
                     <Link
-                      to={`/post/${post.slug}`}
+                      to={`/post/${post._id}`}
                       className="font-medium text-gray-900 dark:text-white"
                     >
                       {post.title}
