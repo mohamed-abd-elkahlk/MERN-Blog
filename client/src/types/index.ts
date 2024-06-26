@@ -16,8 +16,8 @@ export type IPost = {
   category: string;
   slug: string;
   imageUrl: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
 };
 export type IUser = {
   _id: string;

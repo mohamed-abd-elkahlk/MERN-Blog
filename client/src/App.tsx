@@ -7,6 +7,7 @@ import PrivteRoutes from "./context/PrivteRoutes";
 import AdminPrivteRoutes from "./context/AdminPrivteRoutes";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
+import Post from "./pages/Post";
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
         <Route path="/project" element={<Projects />} />
         <Route path="/sign-in" element={<SginIn />} />
         <Route path="/sign-up" element={<SginUp />} />
+        <Route path="/post/:id" element={<Post />} />
         <Route element={<PrivteRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
@@ -28,7 +30,9 @@ function App() {
           path="*"
           element={
             <div className="h-screen grid place-items-center">
-              <h1 className="text-4xl text-center font-extrabold">NOT FOUND</h1>
+              <h1 className="text-4xl text-center font-extrabold">
+                404 NOT FOUND
+              </h1>
             </div>
           }
         />
