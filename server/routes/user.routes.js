@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   deleteUser,
+  getOneUser,
   getUsers,
   updateUser,
   userSignOut,
@@ -29,7 +30,8 @@ router.delete("/delete/:id", mongoIdValidator, deleteUser);
 
 router.use(allowedTo("admin"));
 
-router.route("/").get(getUsers);
 router.delete("/delete-user/:id", mongoIdValidator, deleteUser);
+router.route("/").get(getUsers);
+router.get("/:id", getOneUser);
 
 export default router;

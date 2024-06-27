@@ -8,9 +8,11 @@ import AdminPrivteRoutes from "./context/AdminPrivteRoutes";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import Post from "./pages/Post";
+import ScrollToTob from "./components/shared/ScrollToTob";
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTob />
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />

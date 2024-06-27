@@ -3,8 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import { IPost } from "../types";
 import { Button, Spinner } from "flowbite-react";
 import CallToAction from "../components/shared/CallToAction";
+import Comments from "../components/shared/CommentsSection";
+import { useAppSelector } from "../hook";
 export default function Post() {
   const { id } = useParams();
+  const { currentUser } = useAppSelector((state) => state.user);
   const [post, setPost] = useState<IPost>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,6 +20,8 @@ export default function Post() {
         if (req.ok) {
           const res = await req.json();
           setPost(res.data);
+        } else {
+          setError(true);
         }
       } catch (error) {
         setError(true);
@@ -73,6 +78,18 @@ export default function Post() {
       <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
       </div>
+      {currentUser && post ? (
+        <Comments postId={post._id} user={currentUser} />
+      ) : (
+        <div className="max-w-4xl mx-auto w-full p-3">
+          <div className="text-sm text-teal-500 my-5 flex gap-1">
+            <h2>you must log in to comment.</h2>
+            <Link className="text-blue-500 hover:underline" to={"/sign-in"}>
+              Sign In
+            </Link>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

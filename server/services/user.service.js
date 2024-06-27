@@ -2,8 +2,9 @@ import User from "../models/user.js";
 import { ApiError } from "../utils/index.js";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
-import { deleteOne, getAll } from "./handler.js";
+import { deleteOne, getAll, getOne } from "./handler.js";
 export const getUsers = getAll(User);
+export const getOneUser = getOne(User);
 export const updateUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   if (req.user._id.toString() !== id)

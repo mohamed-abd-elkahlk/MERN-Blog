@@ -22,9 +22,16 @@ export type IPost = {
 export type IUser = {
   _id: string;
   username: string;
+  imageUrl: string;
   email: string;
   role: "admin" | "user";
-  imageUrl: string;
-  createdAt: string;
-  updatedAt: string;
+};
+export type ICommnets = {
+  _id: string;
+  content: string;
+  postId: string;
+  userId: string;
+  likes: string[];
+  createdAt: number;
+  updatedAt: number;
 };
