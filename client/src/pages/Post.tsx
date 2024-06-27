@@ -5,12 +5,15 @@ import { Button, Spinner } from "flowbite-react";
 import CallToAction from "../components/shared/CallToAction";
 import Comments from "../components/shared/CommentsSection";
 import { useAppSelector } from "../hook";
+import PostCard from "../components/shared/PostCard";
 export default function Post() {
   const { id } = useParams();
   const { currentUser } = useAppSelector((state) => state.user);
   const [post, setPost] = useState<IPost>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [recentPosts, setRecentPosts] = useState<IPost[]>([]);
+
   useEffect(() => {
     const fetechOnePost = async () => {
       setError(false);
@@ -30,7 +33,26 @@ export default function Post() {
         setLoading(false);
       }
     };
+    const fetechRecenPosts = async () => {
+      setError(false);
+      setLoading(true);
+      try {
+        const req = await fetch(`/api/post?limit=3`);
+        if (req.ok) {
+          const res = await req.json();
+          setRecentPosts(res.data);
+        } else {
+          setError(true);
+        }
+      } catch (error) {
+        setError(true);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetechOnePost();
+    fetechRecenPosts();
   }, [id]);
 
   if (loading) {
@@ -90,6 +112,14 @@ export default function Post() {
           </div>
         </div>
       )}
+      <div className="flex flex-col justify-center items-center mb-5">
+        <h1 className="text-xl mt-5"> Recent articales</h1>
+        <div className="flex flex-wrap gap-5 justify-center mt-5">
+          {recentPosts.map((post) => (
+            <PostCard post={post} key={post._id} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
