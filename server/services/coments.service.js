@@ -1,8 +1,10 @@
 import asyncHandler from "express-async-handler";
 import Comment from "../models/comment.js";
-import { createOne } from "./handler.js";
+import { createOne, deleteOne, updateOne } from "./handler.js";
 import { ApiError } from "../utils/index.js";
 export const createCommnet = createOne(Comment);
+export const updateCommnet = updateOne(Comment);
+export const deleteCommnet = deleteOne(Comment);
 
 export const getAllCommentToPost = asyncHandler(async (req, res, next) => {
   const { postId } = req.params;

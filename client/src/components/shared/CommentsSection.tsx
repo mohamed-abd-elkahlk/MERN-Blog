@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ICommnets, IUser } from "../../types";
 import { Alert, Button, Spinner, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ export default function Comments({
   postId: string;
   user: IUser;
 }) {
+  const navigate = useNavigate();
   const [comments, setComments] = useState("");
   const [postComments, setPostComments] = useState<ICommnets[]>([]);
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,7 @@ export default function Comments({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+
     try {
       const req = await fetch(`/api/comment/create`, {
         method: "POST",
@@ -36,13 +38,44 @@ export default function Comments({
       setError(null);
       setComments("");
       setPostComments((prev) => [...prev, res.data]);
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   }
+
+  function handleEdit(comment: ICommnets, editedComment: string) {
+    setPostComments(
+      postComments.map((c) =>
+        c._id === comment._id ? { ...c, content: editedComment } : c
+      )
+    );
+  }
+
+  async function handleDelete(commentId: string, postId: string) {
+    if (!user) {
+      return navigate("/sign-in");
+    }
+
+    try {
+      const req = await fetch(
+        `/api/comment/delete/${commentId}?userId=${user?._id}&postId=${postId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (req.ok) {
+        setPostComments(
+          postComments.filter((coment) => coment._id !== commentId)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     async function getCommets() {
       setCommnetsLoading(true);
@@ -126,7 +159,12 @@ export default function Comments({
             </div>
           ) : (
             postComments?.map((comment) => (
-              <CommentCard key={comment._id} data={comment} />
+              <CommentCard
+                key={comment._id}
+                data={comment}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
             ))
           )}
         </>

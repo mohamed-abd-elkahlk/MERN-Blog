@@ -1,10 +1,16 @@
 import { Router } from "express";
 import {
   createCommnet,
+  deleteCommnet,
   getAllCommentToPost,
+  updateCommnet,
 } from "../services/coments.service.js";
 import passport from "passport";
-import { createCommentValidation } from "../utils/validation/commnet.js";
+import {
+  createCommentValidation,
+  deleteCommentValidation,
+  updateCommentValidation,
+} from "../utils/validation/commnet.js";
 
 const router = Router();
 router.route("/create").post(
@@ -15,6 +21,24 @@ router.route("/create").post(
   }),
   createCommentValidation,
   createCommnet
+);
+router.route("/update/:id").put(
+  passport.authenticate("jwt", {
+    session: false,
+    ignoreExpiration: false,
+    userProperty: "user",
+  }),
+  updateCommentValidation,
+  updateCommnet
+);
+
+router.route("/delete/:id").delete(
+  passport.authenticate("jwt", {
+    session: false,
+    ignoreExpiration: false,
+    userProperty: "user",
+  }),
+  deleteCommnet
 );
 
 router.get("/:postId", getAllCommentToPost);
