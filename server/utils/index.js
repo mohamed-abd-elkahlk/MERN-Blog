@@ -15,7 +15,14 @@ export class ApiFeatures {
   // filteraing
   filter() {
     const quryObj = { ...this.quryString };
-    const excludesFildes = ["page", "limit", "sort", "keyword", "fildes"];
+    const excludesFildes = [
+      "page",
+      "limit",
+      "sort",
+      "keyword",
+      "fildes",
+      "category",
+    ];
     const qurySrting = excludesFildes.forEach((fild) => delete quryObj[fild]);
     this.mongooseQuery = this.mongooseQuery.find(qurySrting);
 
@@ -66,14 +73,17 @@ export class ApiFeatures {
   // serching
   serch() {
     if (this.quryString.keyword) {
-      const qury = {};
-      qury.$or = [
-        { title: { $regex: this.quryString.keyword, $options: "i" } },
-        { content: { $regex: this.quryString.keyword, $options: "i" } },
-        { author: { $regex: this.quryString.keyword, $options: "i" } },
-        { category: { $regex: this.quryString.keyword, $options: "i" } },
-        { _id: { $regex: this.quryString.keyword, $options: "i" } },
-      ];
+      const qury = {
+        $or: [
+          { title: { $regex: this.quryString.keyword, $options: "i" } },
+          { content: { $regex: this.quryString.keyword, $options: "i" } },
+        ],
+      };
+      if (this.quryString.category) {
+        qury.$or.push({
+          category: { $regex: this.quryString.keyword, $options: "i" },
+        });
+      }
       this.mongooseQuery = this.mongooseQuery.find(qury);
     }
     return this;
