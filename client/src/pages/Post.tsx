@@ -101,6 +101,7 @@ export default function Post() {
         <CallToAction />
       </div>
       {currentUser && post ? (
+        // @ts-expect-error user type reflect between user form redux and user from Database
         <Comments postId={post._id} user={currentUser} />
       ) : (
         <div className="max-w-4xl mx-auto w-full p-3">

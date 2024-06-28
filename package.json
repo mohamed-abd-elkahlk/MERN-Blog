@@ -6,7 +6,8 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "build": "pnpm install && pnpm install --prefix client && pnpm run build --prefix client"
   },
   "keywords": [],
   "author": "",

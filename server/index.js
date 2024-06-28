@@ -5,7 +5,8 @@ import routes from "./routes/index.js";
 import { globalError } from "./middleware/error.js";
 import { ApiError } from "./utils/index.js";
 import passport from "passport";
-
+import path from "path";
+const __dirname = path.resolve();
 import cookieParser from "cookie-parser";
 import { strategy } from "./config/passport.js";
 const app = express();
@@ -17,9 +18,9 @@ app.use(passport.initialize());
 passport.use(strategy);
 
 app.use("/api", routes);
-
-app.all("*", (req, res, next) => {
-  next(new ApiError(`can't find this route: ${req.originalUrl}`, 404));
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 app.use(globalError);
 const server = app.listen(3000, () => {
