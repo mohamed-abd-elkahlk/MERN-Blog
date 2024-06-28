@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node",
     "dev": "nodemon",
-    "build": "pnpm install && pnpm install --prefix client && pnpm run build --prefix client"
+    "build": "pnpm install && cd client && pnpm install  && pnpm run build"
   },
   "keywords": [],
   "author": "",
