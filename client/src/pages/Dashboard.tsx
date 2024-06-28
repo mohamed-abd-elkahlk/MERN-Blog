@@ -4,6 +4,7 @@ import DashboardBar from "../components/shared/DashboardBar";
 import DashboardProfile from "../components/shared/DashboardProfile";
 import DashboardPosts from "../components/shared/DashboardPosts";
 import DashboardUsers from "../components/shared/DashboardUsers";
+import DashboardComments from "../components/shared/DashboardComments";
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState<string>("");
@@ -24,6 +25,7 @@ const Dashboard = () => {
       {tab === "profile" ? <DashboardProfile /> : ""}
       {tab === "post" ? <DashboardPosts /> : ""}
       {tab === "users" ? <DashboardUsers /> : ""}
+      {tab === "comments" ? <DashboardComments /> : ""}
     </div>
   );
 };

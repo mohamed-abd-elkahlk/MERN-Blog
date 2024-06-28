@@ -1,5 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import {
+  HiAnnotation,
   HiArrowSmRight,
   HiDocumentText,
   HiOutlineUserGroup,
@@ -48,6 +49,19 @@ const DashboardBar = ({ tab }: { tab: string }) => {
                 as="div"
               >
                 Users
+              </Sidebar.Item>
+            </Link>
+          ) : (
+            ""
+          )}
+          {currentUser?.role === "admin" ? (
+            <Link to="/dashboard?tab=comments">
+              <Sidebar.Item
+                active={tab === "comments"}
+                icon={HiAnnotation}
+                as="div"
+              >
+                Comments
               </Sidebar.Item>
             </Link>
           ) : (

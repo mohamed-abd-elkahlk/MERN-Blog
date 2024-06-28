@@ -3,6 +3,7 @@ import {
   createCommnet,
   deleteCommnet,
   getAllCommentToPost,
+  getAllComments,
   updateCommnet,
 } from "../services/coments.service.js";
 import passport from "passport";
@@ -41,5 +42,6 @@ router.route("/delete/:id").delete(
   deleteCommnet
 );
 
+router.get("/", getAllComments);
 router.get("/:postId", getAllCommentToPost);
 export default router;

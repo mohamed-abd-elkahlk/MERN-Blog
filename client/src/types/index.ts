@@ -25,6 +25,8 @@ export type IUser = {
   imageUrl: string;
   email: string;
   role: "admin" | "user";
+  createdAt: number;
+  updatedAt: number;
 };
 export type ICommnets = {
   _id: string;

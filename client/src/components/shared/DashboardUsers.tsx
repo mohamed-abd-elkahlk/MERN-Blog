@@ -17,7 +17,6 @@ export default function DashboardUsers() {
           method: "GET",
         });
         const res = await req.json();
-        console.log(res);
 
         if (res.data) {
           setUserData(res.data);
